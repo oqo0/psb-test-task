@@ -2,31 +2,38 @@ namespace PsbTestTask.Games;
 
 public class GamesManager
 {
-    public int[] GetGameTable(IList<Game?> games)
+    private const int WinPoints = 3;
+    private const int DrawPoints = 1;
+
+    public int[] GetGameTable(IEnumerable<Game?> games)
     {
-        // типа таблица игр
-        var result = new int[2];
+        var gameTable = new int[2];
 
         foreach (var game in games)
         {
-            if (game is null)
-                continue;
-                
-            switch (game.GameResult)
+            if (game != null)
             {
-                case GameResult.TeamOneWin:
-                    result[0] += 3;
-                    break;
-                case GameResult.TeamTwoWin:
-                    result[1] += 3;
-                    break;
-                case GameResult.Draw:
-                    result[0]++;
-                    result[1]++;
-                    break;
+                UpdateGameTable(gameTable, game.GameResult);
             }
         }
 
-        return result;
+        return gameTable;
+    }
+
+    private static void UpdateGameTable(IList<int> gameTable, GameResult gameResult)
+    {
+        switch (gameResult)
+        {
+            case GameResult.TeamOneWin:
+                gameTable[0] += WinPoints;
+                break;
+            case GameResult.TeamTwoWin:
+                gameTable[1] += WinPoints;
+                break;
+            case GameResult.Draw:
+                gameTable[0] += DrawPoints;
+                gameTable[1] += DrawPoints;
+                break;
+        }
     }
 }

@@ -18,8 +18,7 @@ public static class Program
 
         if (string.IsNullOrEmpty(gamesInput))
         {
-            Console.WriteLine("No games input provided.");
-            return null;
+            return [];
         }
 
         var gamesInputData = gamesInput.Split(", ");
